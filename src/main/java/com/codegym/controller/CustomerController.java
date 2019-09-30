@@ -4,8 +4,8 @@ import com.codegym.model.Customer;
 import com.codegym.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -44,40 +44,35 @@ public class CustomerController {
         Customer customerObject = new Customer(customer.getName(),customer.getAddress(),customer.getPhone());
         customerService.add(customerObject);
 
-        ModelAndView modelAndView = new ModelAndView("/customer/list");
-        modelAndView.addObject("customer",new Customer());
-
-        return modelAndView;
+       return getAllCustomer();
     }
 
-    @GetMapping("/edit")
-    public ModelAndView editCustomer() {
+    @GetMapping("/edit/{id}")
+    public ModelAndView editCustomer(@PathVariable Long id) {
+        Customer customer = customerService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/customer/edit");
-        modelAndView.addObject("editCustomer", new Customer());
+        modelAndView.addObject("customer",customer);
         return modelAndView;
     }
 
     @PostMapping("/edit-customer")
-    public ModelAndView updateCustomer(@ModelAttribute Customer customer) {
-        Customer customerObject = new Customer(customer.getId(),customer.getName(),customer.getAddress(),customer.getPhone());
-        customerService.edit(customerObject);
-
-        ModelAndView modelAndView = new ModelAndView("/customer/list");
-        return modelAndView;
+    public ModelAndView updateCustomer(@ModelAttribute("customer")Customer customer) {
+        customerService.edit(customer);
+        return getAllCustomer();
     }
 
-    @GetMapping("/remove")
-    public ModelAndView removeCustomer() {
+    @GetMapping("/remove/{id}")
+    public ModelAndView sure(@PathVariable Long id) {
+        Customer customer = customerService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/customer/remove");
-        modelAndView.addObject("id");
+        modelAndView.addObject("customer",customer);
         return modelAndView;
     }
 
-    @PostMapping("/customer/remove-customer")
-    public ModelAndView removeCustomer(@RequestParam long id ) {
+    @PostMapping("/remove-customer/{id}")
+    public ModelAndView removeCustomer(@PathVariable Long id){
         customerService.remove(id);
-        ModelAndView modelAndView = new ModelAndView("/customer/list");
-        return modelAndView;
+        return getAllCustomer();
     }
 
 }

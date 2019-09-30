@@ -9,5 +9,5 @@ public interface GeneralRepository<E> {
 
     void edit(E e);
 
-    void remove(Long id);
+    void remove(Long e);
 }

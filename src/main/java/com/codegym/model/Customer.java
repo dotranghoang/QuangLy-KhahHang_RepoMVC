@@ -20,7 +20,7 @@ public class Customer {
         this.address = address;
         this.phone = phone;
     }
-    public Customer(Long id,String name, String address, String phone) {
+    public Customer(long id,String name, String address, String phone) {
         this.name = name;
         this.address = address;
         this.phone = phone;

@@ -7,11 +7,11 @@
 <body>
 <a href="/customer/list">Back to list customer</a>
 <h1 class="title" >Edit Customer</h1>
-<form th:action="@{/customer/edit-customer}" th:object="${editCustomer}" method="post">
+<form th:action="@{/customer/edit-customer}" th:object="${customer}" method="post">
     <table border="1">
         <tr>
             <td>ID :</td>
-            <td><input type="number" th:field="*{id}"/></td>
+            <td><p th:text="${customer.id}"></p> </td>
         </tr>
         <tr>
             <td>Name :</td>

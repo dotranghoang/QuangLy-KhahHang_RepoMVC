@@ -6,6 +6,8 @@
 </head>
 <body>
 <h1 class="title">Product List</h1>
+<p><a href="/customer/create">Create new customer</a></p>
+
 <table border="2px">
 <div>
     <tr>
@@ -20,6 +22,8 @@
             <td th:text="${customer.name}"></td>
             <td th:text="${customer.address}"></td>
             <td th:text="${customer.phone}"></td>
+            <td><a th:href="@{/customer/edit/__${customer.id}__}">Edit</a> </td>
+            <td><a th:href="@{/customer/remove/__${customer.id}__}">Remove</a> </td>
         </tr>
     </div>
 </div>

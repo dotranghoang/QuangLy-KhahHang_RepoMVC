@@ -6,11 +6,23 @@
 </head>
 <body>
 <h1><p class="title">Are you sure?</p></h1>
-<form th:action="@{/customer/remove-customer}" th:" method="post">
+<form th:action="@{/customer/remove-customer/__${customer.id}__}" th:object="${customer}" method="post">
 <table border="2px">
     <tr>
-        <td>ID :</td>
-        <td><input type="number" th:field="*{}"/></td>
+        <td>ID: </td>
+        <td th:text="${customer.id}"></td>
+    </tr>
+    <tr>
+        <td>Name:</td>
+        <td th:text="${customer.name}"></td>
+    </tr>
+    <tr>
+        <td>Address: </td>
+        <td th:text="${customer.address}"></td>
+    </tr>
+    <tr>
+        <td>Phone: </td>
+        <td th:text="${customer.phone}"></td>
     </tr>
     <tr>
         <td></td>
