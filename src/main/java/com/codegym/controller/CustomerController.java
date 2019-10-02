@@ -1,29 +1,33 @@
 package com.codegym.controller;
 
 import com.codegym.model.Customer;
+import com.codegym.model.Province;
 import com.codegym.service.CustomerService;
+import com.codegym.service.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
-@Controller
 @RequestMapping("/customer")
+@Controller
 public class CustomerController {
-
-    @Autowired
-    Environment env;
 
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private ProvinceService provinceService;
+
+    @ModelAttribute("provinces")
+    public Iterable<Province> provinces(){
+        return provinceService.findAll();
+    }
+
+
     @RequestMapping("/list")
     public ModelAndView getAllCustomer() {
-        List<Customer> customerList = customerService.findAll();
+        Iterable<Customer> customerList = customerService.findAll();
 
         ModelAndView modelAndView = new ModelAndView("/customer/list");
         modelAndView.addObject("customers",customerList);
@@ -34,17 +38,19 @@ public class CustomerController {
     @GetMapping("/create")
     public ModelAndView createForm() {
         ModelAndView  modelAndView = new ModelAndView("/customer/create");
-        modelAndView.addObject("customerForm",new Customer());
+        modelAndView.addObject("customer",new Customer());
         return modelAndView;
     }
 
     @PostMapping("/save-customer")
     public ModelAndView saveCustomer(@ModelAttribute Customer customer ) {
 
-        Customer customerObject = new Customer(customer.getName(),customer.getAddress(),customer.getPhone());
-        customerService.add(customerObject);
+        customerService.save(customer);
+        ModelAndView  modelAndView = new ModelAndView("/customer/create");
+        modelAndView.addObject("customer",new Customer());
+        modelAndView.addObject("message","Created customer");
 
-       return getAllCustomer();
+        return modelAndView ;
     }
 
     @GetMapping("/edit/{id}")
@@ -57,7 +63,7 @@ public class CustomerController {
 
     @PostMapping("/edit-customer")
     public ModelAndView updateCustomer(@ModelAttribute("customer")Customer customer) {
-        customerService.edit(customer);
+        customerService.save(customer);
         return getAllCustomer();
     }
 

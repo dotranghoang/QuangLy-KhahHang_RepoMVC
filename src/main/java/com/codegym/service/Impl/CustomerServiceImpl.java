@@ -1,47 +1,40 @@
 package com.codegym.service.Impl;
 
 import com.codegym.model.Customer;
+import com.codegym.model.Province;
 import com.codegym.repository.CustomerRepository;
+import com.codegym.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
-public class CustomerServiceImpl implements com.codegym.service.CustomerService {
+
+public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
     @Override
-    public List<Customer> findAll() {
+    public Customer findById(Long id) {
+        return customerRepository.findOne(id);
+    }
+
+    @Override
+    public Iterable<Customer> findAllByProvince(Province province) {
+        return customerRepository.findAllByProvince(province);
+    }
+
+    @Override
+    public Iterable<Customer> findAll() {
         return customerRepository.findAll();
     }
 
     @Override
-    public void add(Customer customer) {
-        customerRepository.add(customer);
+    public void save(Customer customer) {
+        customerRepository.save(customer);
     }
 
     @Override
-    public void edit(Customer customer) {
-        customerRepository.edit(customer);
+    public void remove(Long id) {
+        customerRepository.delete(id);
     }
-
-    @Override
-    public void remove(Long e) {
-        customerRepository.remove(e);
-    }
-
-
-    @Override
-    public Customer findById(Long id) {
-      return customerRepository.findById(id);
-    }
-
-    @Override
-    public Page<Customer> findAll(Pageable pageable) {
-        return customerRepository.findAll(pageable);
-    }
-
 
 }

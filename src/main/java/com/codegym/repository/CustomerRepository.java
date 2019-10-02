@@ -1,8 +1,9 @@
 package com.codegym.repository;
 
 import com.codegym.model.Customer;
-import com.codegym.service.GeneralService;
+import com.codegym.model.Province;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface CustomerRepository extends GeneralService<Customer> {
-    Customer findById(Long id);
+public interface CustomerRepository extends PagingAndSortingRepository<Customer,Long> {
+    Iterable<Customer> findAllByProvince(Province province);
 }

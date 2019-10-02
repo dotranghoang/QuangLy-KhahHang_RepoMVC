@@ -11,10 +11,11 @@
 <table border="2px">
 <div>
     <tr>
-        <td>Id :</td>
-        <td>Name :</td>
-        <td>Address :</td>
-        <td>Phone :</td>
+        <td>Id </td>
+        <td>Name </td>
+        <td>Address </td>
+        <td>Phone </td>
+        <td>Province </td>
     </tr>
     <div th:each="customer : ${customers}">
         <tr>
@@ -22,6 +23,7 @@
             <td th:text="${customer.name}"></td>
             <td th:text="${customer.address}"></td>
             <td th:text="${customer.phone}"></td>
+            <td th:text="${customer.province.name}"></td>
             <td><a th:href="@{/customer/edit/__${customer.id}__}">Edit</a> </td>
             <td><a th:href="@{/customer/remove/__${customer.id}__}">Remove</a> </td>
         </tr>

@@ -6,8 +6,11 @@
 </head>
 <body>
 <h1 class="title">Create Customer</h1>
-
-<form th:action="@{/customer/save-customer}" th:object="${customerForm}" method="post">
+<p><a href="/customer/list">Back to list customer</a> </p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:action="@{/customer/save-customer}" th:object="${customer}" method="post">
     <table>
         <tr>
             <td>Name : </td>
@@ -16,6 +19,14 @@
         <tr>
             <td>Address : </td>
             <td><input type="text" th:field="*{address}"/></td>
+        </tr>
+        <tr>
+            <td>Province:</td>
+            <td>
+                <select th:field="*{province}">
+                    <option th:each="p : ${provinces}" th:value="${p.id}" th:text="${p.name}"></option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td>Phone : </td>
