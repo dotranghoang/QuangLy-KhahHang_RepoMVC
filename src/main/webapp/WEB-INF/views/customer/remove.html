@@ -6,6 +6,10 @@
 </head>
 <body>
 <h1><p class="title">Are you sure?</p></h1>
+<p><a href="/customer/list">Back to list customer</a> </p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
 <form th:action="@{/customer/remove-customer/__${customer.id}__}" th:object="${customer}" method="post">
 <table border="2px">
     <tr>

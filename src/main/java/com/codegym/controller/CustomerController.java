@@ -5,11 +5,14 @@ import com.codegym.model.Province;
 import com.codegym.service.CustomerService;
 import com.codegym.service.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@RequestMapping("/customer")
+import java.util.Optional;
+
 @Controller
 public class CustomerController {
 
@@ -26,12 +29,15 @@ public class CustomerController {
 
 
     @RequestMapping("/list")
-    public ModelAndView getAllCustomer() {
-        Iterable<Customer> customerList = customerService.findAll();
-
+    public ModelAndView listCustomers(@RequestParam("s") Optional<String> s , Pageable pageable){
+        Page<Customer> customers;
+        if(s.isPresent()) {
+            customers = customerService.findAllByNameContaining(s.get(),pageable);
+        } else {
+            customers = customerService.findAll(pageable);
+        }
         ModelAndView modelAndView = new ModelAndView("/customer/list");
-        modelAndView.addObject("customers",customerList);
-
+        modelAndView.addObject("customers", customers);
         return modelAndView;
     }
 
@@ -64,7 +70,10 @@ public class CustomerController {
     @PostMapping("/edit-customer")
     public ModelAndView updateCustomer(@ModelAttribute("customer")Customer customer) {
         customerService.save(customer);
-        return getAllCustomer();
+        ModelAndView modelAndView = new ModelAndView("/customer/edit");
+        modelAndView.addObject("customer",customer);
+        modelAndView.addObject("message","Edited Customer");
+        return modelAndView;
     }
 
     @GetMapping("/remove/{id}")
@@ -78,7 +87,10 @@ public class CustomerController {
     @PostMapping("/remove-customer/{id}")
     public ModelAndView removeCustomer(@PathVariable Long id){
         customerService.remove(id);
-        return getAllCustomer();
+
+        ModelAndView modelAndView = new ModelAndView("/customer/remove");
+        modelAndView.addObject("message","Deleted customer");
+        return modelAndView;
     }
 
 }

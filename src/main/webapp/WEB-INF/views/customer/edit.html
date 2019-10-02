@@ -5,8 +5,12 @@
     <title>Edit Customer</title>
 </head>
 <body>
-<a href="/customer/list">Back to list customer</a>
 <h1 class="title" >Edit Customer</h1>
+<a href="/customer/list">Back to list customer</a>
+
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
 <form th:action="@{/customer/edit-customer}" th:object="${customer}" method="post">
     <table border="1">
         <tr>
